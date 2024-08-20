@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body{
+            background-color: rgb(225, 225, 189);
+        }
+
+        h1{
+            color: rgb(4, 4, 129);
+            text-decoration: underline;
+            text-align: center;
+            font-size: xx-large;
+        }
+        h5{
+            margin: 20px 0px;
+            font-size: larger;
+        }
+        p{
+            font-size: large;
+            margin-bottom: 10px;
+            margin-left: 20px;
+            padding: 5px;
+            word-spacing: 7px;
+        }
+
+        .navbar {
+            border: 1px;
+            background-color: indianred;
+            padding: 30px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .book-container {
+            border: 1px solid;
+            width: 25%;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            padding: 30px;
+            margin: 20px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .book-container:hover{
+            transition:cubic-bezier(0.895, 0.03, 0.685, 0.22);
+            transform: scale(1.1);
+            color: red;
+        }
+
+        .book-container h2 {
+            color: indianred;
+            text-decoration: underline;
+        }
+
+        .book-container button {
+            border-radius: 5px;
+            background-color: indianred;
+            width: 70px;
+            border: none;
+            height: 30px;
+            margin-top: 15px;
+            color: rgb(8, 7, 7);
+            font-weight:bolder ;
+        }
+
+        .add-button {
+            border: 1px solid;
+            border-radius: 100%;
+            background-color: indianred;
+            color: black;
+            padding: 20px 30px 20px 30px;
+            font-size: 50px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+        }
+
+        .popup-overlay {
+            background-color: black;
+            opacity: 0.8;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .popup-box {
+            background-color: indianred;
+            width: 40%;
+            padding: 40px;
+            border-radius: 10px;
+            position: absolute;
+            z-index: 2;
+            top: 20%;
+            left: 30%;
+            display: none;
+        }
+
+        .popup-box input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            margin: 5px;
+            padding: 5px;
+            font-size: 20px;
+            border-bottom: 2px solid black;
+        }
+
+        .popup-box textarea {
+            background: transparent;
+            width: 100%;
+            margin: 5px;
+            padding: 5px;
+            font-size: 20px;
+            border: 2px solid black;
+
+        }
+
+        .popup-box input::placeholder {
+            color: black;
+        }
+
+        .popup-box textarea::placeholder {
+            color: black;
+        }
+
+        .popup-box button {
+            background-color: black;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: white;
+            margin: 5px;
+        }
+
+        .popup-box input:focus {
+            outline: none;
+        }
+
+        .popup-box textarea:focus {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>Bookskey</h1>
+    </div>
+    <div class="container">
+        <div class="book-container">
+            <h2>Rich Dad Poor Dad</h2>
+            <h5>Robert</h5>
+            <p>Rich Dad Poor Dad is a 1997 book written by Robert T. Kiyosaki and Sharon Lechter. It advocates the importance of financial literacy (financial education), financial independence and building wealth through investing in assets, real estate investing, starting and owning businesses, as well as increasing one's financial intelligence (financial IQ).</p>
+            <button onclick="deletebook(event)">Delete</button>
+        </div>
+    </div>
+    <div class="popup-overlay">
+
+    </div>
+    <div class="popup-box">
+        <h2>Add book</h2>
+        <form>
+            <input type="text" placeholder="Book title" id="book-title-input">
+            <input type="text" placeholder="Book-Author" id="Book-Author-input">
+            <textarea placeholder="Book-Description" id="Book-description-input"></textarea>
+        </form>
+        <button id="add-book">Add</button>
+        <button id="cancel-popup">Cancel</button>
+    </div>
+
+
+    <button class="add-button" id="add-button-popup">+</button>
+
+
+</body>
+
+</html>
+<script>
+    var popupoverlay = document.querySelector(".popup-overlay");
+    var popupbox = document.querySelector(".popup-box");
+    var addpopupbutton = document.getElementById("add-button-popup");
+
+    addpopupbutton.addEventListener("click", function () {
+        popupbox.style.display = "block";
+        popupoverlay.style.display = "block";
+    });
+
+    cancelpopup = document.getElementById("cancel-popup");
+    cancelpopup.addEventListener("click", function () {
+        popupoverlay.style.display = "none";
+        popupbox.style.display = "none";
+    })
+
+    var container = document.querySelector(".container");
+    var booktitle = document.getElementById("book-title-input");
+    var bookauthor = document.getElementById("Book-Author-input");
+    var addbook = document.getElementById("add-book");
+    var BookDescription = document.getElementById("Book-description-input");
+
+    addbook.addEventListener("click", function (event) {
+        event.preventDefault();
+        var div = document.createElement("div");
+        div.setAttribute("class", "book-container");
+        div.innerHTML =`<h2>${booktitle.value}</h2>
+        <h5>${bookauthor.value}</h5>
+        <p>${BookDescription.value}</p>
+        <button onclick="deletebook(event)">Delete</button>`
+        popupbox.style.display="none";
+        popupoverlay.style.display="none";
+        container.append(div);
+    })
+
+    function deletebook(event){
+         event.target.parentElement.remove()
+    }
+
+</script>
